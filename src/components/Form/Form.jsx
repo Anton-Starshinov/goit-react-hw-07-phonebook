@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { FormStyled, LabelForm, InputForm, ButtonForm } from './Form.styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { getContacts } from 'redux/selectors';
-import { addContacts } from 'redux/contactsSlice';
+import { addContacts } from 'redux/operations';
 
 export default function Form() {
   const contacts = useSelector(getContacts);
@@ -13,33 +13,29 @@ export default function Form() {
 
   const nameId = nanoid(3);
 
-  const handleChange = evt => {
-    const { name, value } = evt.currentTarget;
+  const handleChangeName = evt => {
+    setName(evt.target.value);
+  };
 
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-      default:
-        break;
-    }
+  const handleChangeNumber = evt => {
+    setNumber(evt.target.value);
+  };
+
+  const handleAddContact = (name, phone) => {
+    dispatch(addContacts({ name, phone }));
   };
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    const form = evt.target;
     if (
       contacts.find(
-        contact =>
-          contact.name.toLowerCase() === form.elements.name.value.toLowerCase()
+        contact => contact.name.toLowerCase() === name.toLowerCase()
       )
     ) {
-      return alert(`${form.elements.name.value} is already in contacts`);
+      return alert(`${name} is already in contacts`);
     }
-    dispatch(addContacts(form.elements.name.value, form.elements.number.value));
+
+    handleAddContact(name, number);
 
     resetSubmit();
   };
@@ -58,7 +54,7 @@ export default function Form() {
           type="text"
           name="name"
           value={name}
-          onChange={handleChange}
+          onChange={handleChangeName}
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
@@ -71,7 +67,7 @@ export default function Form() {
           type="tel"
           name="number"
           value={number}
-          onChange={handleChange}
+          onChange={handleChangeNumber}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required

@@ -1,26 +1,26 @@
-import { useDispatch } from 'react-redux';
-import { deleteContacts } from 'redux/contactsSlice';
-import {
-  TextList,
-  ButtonList,
-  ItemBox,
-} from 'components/ContactList/ContactsList.styled';
+// import { useDispatch } from 'react-redux';
+// import { deleteContacts } from 'redux/operations';
+// import {
+//   TextList,
+//   ButtonList,
+//   ItemBox,
+// } from 'components/ContactList/ContactsList.styled';
 
-const Contact = ({ id, name, number }) => {
-  const dispatch = useDispatch();
+// const Contact = ({ id, name, number }) => {
+//   const dispatch = useDispatch();
 
-  const handleDelete = () => dispatch(deleteContacts(id));
+//   const handleDelete = () => dispatch(deleteContacts(id));
 
-  return (
-    <ItemBox>
-      <TextList>
-        {name}: {number}
-      </TextList>
-      <ButtonList type="button" onClick={handleDelete}>
-        Delete
-      </ButtonList>
-    </ItemBox>
-  );
-};
+//   return (
+//     <ItemBox>
+//       <TextList>
+//         {name}: {number}
+//       </TextList>
+//       <ButtonList type="button" onClick={handleDelete}>
+//         Delete
+//       </ButtonList>
+//     </ItemBox>
+//   );
+// };
 
-export default Contact;
+// export default Contact;

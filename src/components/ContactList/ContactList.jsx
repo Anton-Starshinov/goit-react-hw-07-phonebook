@@ -1,21 +1,32 @@
 import Contact from 'components/Contact/Contact';
-import { useSelector } from 'react-redux';
+import { fetchContacts } from 'redux/operations';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { getContacts } from 'redux/selectors';
 import { List, ListItem } from './ContactsList.styled';
-import { getStatusFilter } from 'redux/selectors';
+import { getStatusFilter, getIsLoading, getError } from 'redux/selectors';
 
 function ContactList() {
-  const contactsState = useSelector(getContacts);
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
   const filter = useSelector(getStatusFilter);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const normalized = filter.toLocaleLowerCase();
-  const contacts = contactsState.filter(contact =>
+  const filterContacts = contacts.filter(contact =>
     contact.name.toLocaleLowerCase().includes(normalized)
   );
 
   return (
     <List>
-      {contacts.map(({ id, name, number }) => (
+      {isLoading && !error && <p>Request in progress...</p>}
+      {error && <p>error</p>}
+      {filterContacts.map(({ id, name, number }) => (
         <ListItem key={id}>
           <Contact id={id} name={name} number={number} />
         </ListItem>

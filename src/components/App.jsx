@@ -1,6 +1,6 @@
 import Form from './Form/Form';
 import ContactList from './ContactList/ContactList';
-import Filter from './Filter/Filter';
+// import Filter from './Filter/Filter';
 import { Container, TitlePhoneBook } from './App.styled';
 
 export const App = () => {
@@ -9,7 +9,7 @@ export const App = () => {
       <TitlePhoneBook>Phonebook</TitlePhoneBook>
       <Form />
       <TitlePhoneBook>Contacts</TitlePhoneBook>
-      <Filter />
+      {/* <Filter /> */}
       <ContactList />
     </Container>
   );
