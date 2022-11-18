@@ -13,22 +13,22 @@ function ContactList() {
   const isLoading = useSelector(getIsLoading);
   const error = useSelector(getError);
 
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
-
   const normalized = filter.toLocaleLowerCase();
   const filterContacts = contacts.filter(contact =>
     contact.name.toLocaleLowerCase().includes(normalized)
   );
 
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   return (
     <List>
       {isLoading && !error && <p>Request in progress...</p>}
       {error && <p>error</p>}
-      {filterContacts.map(({ id, name, number }) => (
+      {filterContacts.map(({ id, name, phone }) => (
         <ListItem key={id}>
-          <Contact id={id} name={name} number={number} />
+          <Contact id={id} name={name} number={phone} />
         </ListItem>
       ))}
     </List>
